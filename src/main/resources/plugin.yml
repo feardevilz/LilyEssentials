@@ -13,7 +13,7 @@ commands:
   sendall:
     description: Send all players to another server
   find:
-    aliases: [find, whereis]
+    aliases: [find, whereis, plist, who, list]
     description: Find what server another player is on
   alert:
     description: Network wide broadcast
@@ -32,11 +32,17 @@ commands:
   glist:
     aliases: [globallist, listall, servers]
     description: Global player list
+  shout:
+    description: Network wide broadcast
+  global:
+    aliases: [local]
+    description: Toggle global/local chat
 permissions:
   lilyesssentials.*:
     description: All LilyEssentials perms
     children:
       lilyessentials.general.message: true
+      lilyessentials.general.shout: true
       lilyessentials.general.glist: true
       lilyessentials.general.find: true
       lilyessentials.admin.chat: true
@@ -50,8 +56,10 @@ permissions:
     description: All general LilyEssentials perms
     children:
       lilyessentials.general.message: true
+      lilyessentials.general.shout: true
       lilyessentials.general.find: true
       lilyessentials.general.glist: true
+      lilyessentials.general.chat: true
   lilyessentials.admin.*:
     description: All admin LilyEssentials perms
     children:
@@ -81,6 +89,12 @@ permissions:
   lilyessentials.general.message:
     description: Access to messaging
     default: true
+  lilyessentials.general.shout:
+    description: Access to shout
+    default: false
+  lilyessentials.general.chat:
+    description: Access to global/local chat
+    default: false
   lilyessentials.general.glist:
     description: Global server playerlist
     default: true

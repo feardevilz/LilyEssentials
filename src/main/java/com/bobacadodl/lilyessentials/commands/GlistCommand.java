@@ -9,18 +9,22 @@ import org.bukkit.command.CommandSender;
 
 import com.bobacadodl.lilyessentials.LilyEssentials;
 
-public class GlistCommand implements CommandExecutor {
+public class GlistCommand implements CommandExecutor 
+{
 
 	private LilyEssentials plugin;
 
-	public GlistCommand(LilyEssentials plugin) {
+	public GlistCommand(LilyEssentials plugin) 
+	{
 		this.plugin = plugin;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) 
+	{
 
-		if (!sender.hasPermission("lilyessentials.general.glist")) {
+		if (!sender.hasPermission("lilyessentials.general.glist")) 
+		{
 			return false;
 		}
 
@@ -33,7 +37,8 @@ public class GlistCommand implements CommandExecutor {
 				plugin.getCfg().format_glist_title2.replace("{total}",
 						Integer.toString(onlinePlayers))));
 
-		for (String server : plugin.getServerSync().getServers()) {
+		for (String server : plugin.getServerSync().getServers()) 
+		{
 
 			List<String> players = plugin.getServerSync().getPlayersOnServer(server);
 			String online = Integer.toString(players.size());

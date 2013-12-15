@@ -7,23 +7,27 @@ import org.bukkit.command.CommandSender;
 
 import com.bobacadodl.lilyessentials.LilyEssentials;
 
-public class AlertCommand implements CommandExecutor {
+public class AlertCommand implements CommandExecutor 
+{
 
 	private LilyEssentials plugin;
 
-	public AlertCommand(LilyEssentials plugin) {
+	public AlertCommand(LilyEssentials plugin) 
+	{
 		this.plugin = plugin;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) 
+	{
 
-		if(!sender.hasPermission("lilyessentials.admin.alert")) {
+		if(!sender.hasPermission("lilyessentials.admin.alert")) 
+		{
 			return false;
 		}
 
-		if(args.length <= 0){
-			sender.sendMessage(ChatColor.DARK_RED + "Invalid args!");
+		if(args.length <= 0)
+		{
 			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/alert [message]");
 			return true;
 		}

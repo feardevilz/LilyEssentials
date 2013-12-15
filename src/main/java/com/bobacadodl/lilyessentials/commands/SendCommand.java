@@ -7,24 +7,28 @@ import org.bukkit.command.CommandSender;
 
 import com.bobacadodl.lilyessentials.LilyEssentials;
 
-public class SendCommand implements CommandExecutor {
+public class SendCommand implements CommandExecutor 
+{
 	
 	private LilyEssentials plugin;
 
-	public SendCommand(LilyEssentials plugin) {
+	public SendCommand(LilyEssentials plugin) 
+	{
 		this.plugin = plugin;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) 
+	{
 
-		if (!sender.hasPermission("lilyessentials.admin.send")) {
+		if (!sender.hasPermission("lilyessentials.admin.send")) 
+		{
 			return false;
 		}
 
 		// Invalid
-		if (args.length != 2) {
-			sender.sendMessage(ChatColor.DARK_RED + "Invalid args!");
+		if (args.length != 2) 
+		{
 			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/send [player] [server]");
 			return true;
 		}

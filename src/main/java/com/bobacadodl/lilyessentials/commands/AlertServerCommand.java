@@ -9,31 +9,36 @@ import org.bukkit.command.CommandSender;
 
 import com.bobacadodl.lilyessentials.LilyEssentials;
 
-public class AlertServerCommand implements CommandExecutor {
+public class AlertServerCommand implements CommandExecutor 
+{
 
 	private LilyEssentials plugin;
 
-	public AlertServerCommand(LilyEssentials plugin) {
+	public AlertServerCommand(LilyEssentials plugin) 
+	{
 		this.plugin = plugin;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) 
+	{
 		
-		if (!sender.hasPermission("lilyessentials.admin.alertserver")) {
+		if (!sender.hasPermission("lilyessentials.admin.alertserver")) 
+		{
 			return false;
 		}
 
 		// Invalid
-		if (args.length <= 0) {
-			sender.sendMessage(ChatColor.DARK_RED + "Invalid args!");
+		if (args.length <= 0) 
+		{
 			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/alert [servers] [message]");
 			return true;
 		}
 
 		String serverString = args[0];
 		ArrayList<String> servers = new ArrayList<String>();
-		for (String server : serverString.split(",")) {
+		for (String server : serverString.split(",")) 
+		{
 			servers.add(server);
 		}
 

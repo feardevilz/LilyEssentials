@@ -7,33 +7,37 @@ import org.bukkit.command.CommandSender;
 
 import com.bobacadodl.lilyessentials.LilyEssentials;
 
-public class MessageCommand implements CommandExecutor {
+public class MessageCommand implements CommandExecutor 
+{
 
 	private LilyEssentials plugin;
 
-	public MessageCommand(LilyEssentials plugin) {
+	public MessageCommand(LilyEssentials plugin) 
+	{
 		this.plugin = plugin;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) 
+	{
 
-		if (!sender.hasPermission("lilyessentials.general.message")) {
+		if (!sender.hasPermission("lilyessentials.general.message")) 
+		{
 			return false;
 		}
 
 		// Invalid
-		if (args.length <= 1) {
-			sender.sendMessage(ChatColor.DARK_RED + "Invalid args!");
+		if (args.length <= 1) 
+		{
 			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/msg [player] [message]");
 			return true;
 		}
 
 		String target = args[0];
 
-		if (plugin.getServerSync().lookupPlayer(target) == null) {
-			sender.sendMessage(ChatColor.DARK_RED + "Error!");
-			sender.sendMessage(ChatColor.RED + "Player is offline");
+		if (plugin.getServerSync().lookupPlayer(target) == null) 
+		{
+			sender.sendMessage(ChatColor.DARK_RED + "That player isn't around. Did you mistype their name?");
 			return true;
 		}
 

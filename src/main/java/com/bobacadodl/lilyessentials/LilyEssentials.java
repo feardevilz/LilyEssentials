@@ -23,7 +23,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.bobacadodl.lilyessentials.commands.*;
 
-public class LilyEssentials extends JavaPlugin {
+public class LilyEssentials extends JavaPlugin 
+{
 	
 	public Logger log = Logger.getLogger("Minecraft"); 
 
@@ -33,9 +34,11 @@ public class LilyEssentials extends JavaPlugin {
 	private String server;
 	private HashMap<String, String> lastMessaged = new HashMap<String, String>();
 	private ArrayList<String> adminChat = new ArrayList<String>();
+	private ArrayList<String> globalChat = new ArrayList<String>();
 	private ServerSync serverSync;
 
-	public void onEnable() {
+	public void onEnable() 
+	{
 		serverSync = new ServerSync(this);
 		getServer().getPluginManager().registerEvents(serverSync, this);
 		connect = getServer().getServicesManager().getRegistration(Connect.class).getProvider();
@@ -54,66 +57,89 @@ public class LilyEssentials extends JavaPlugin {
 		getCommand("dispatchserver").setExecutor(new DispatchServerCommand(this));
 		getCommand("find").setExecutor(new FindCommand(this));
 		getCommand("glist").setExecutor(new GlistCommand(this));
+		getCommand("global").setExecutor(new GlobalchatCommand(this));
+		getCommand("local").setExecutor(new GlobalchatCommand(this));
 		getCommand("message").setExecutor(new MessageCommand(this));
 		getCommand("reply").setExecutor(new ReplyCommand(this));
 		getCommand("sendall").setExecutor(new SendAllCommand(this));
 		getCommand("send").setExecutor(new SendCommand(this));
 		getCommand("hide").setExecutor(new HideCommand(this));
+		getCommand("shout").setExecutor(new ShoutCommand(this));
 	}
 
-	public void onDisable() {
+	public void onDisable() 
+	{
 		config.save();
 		log.info(ChatColor.GREEN + "LilyEssentials has been disabled and saved!");
 	}
 
-	public void redirectRequest(String server, final Player player) {
-		try {
+	public void redirectRequest(String server, final Player player) 
+	{
+		try 
+		{
 			// create connection
 			// new RedirectRequest to transfer the player
 			connect.request(new RedirectRequest(server, player.getName()))
 			.registerListener(
-					new FutureResultListener<RedirectResult>() {
+					new FutureResultListener<RedirectResult>() 
+					{
 						// listen for a successful transfer
 						public void onResult(
-								RedirectResult redirectResult) {
-							if (redirectResult.getStatusCode() == StatusCode.SUCCESS) {
+								RedirectResult redirectResult) 
+						{
+							if (redirectResult.getStatusCode() == StatusCode.SUCCESS) 
+							{
 								return;
 							}
 							player.sendMessage(ChatColor.RED + "Connection Error!!");
 						}
 					});
 
-		} catch (Exception exception) {
+		} 
+		catch (Exception exception) 
+		{
 			player.sendMessage(ChatColor.RED + "Connection Error!!");
 		}
 	}
 
 	public FutureResult<GetPlayersResult> playerRequest()
-			throws RequestException {
+			throws RequestException 
+	{
 		return connect.request(new GetPlayersRequest(true));
 	}
 
-	public void request(String channel, String message) {
-		try {
+	public void request(String channel, String message) 
+	{
+		try 
+		{
 			MessageRequest request = new MessageRequest(
 					new ArrayList<String>(), channel, message); // servername,  channelname (short),  message
 			connect.request(request);
-		} catch (UnsupportedEncodingException e) {
+		} 
+		catch (UnsupportedEncodingException e) 
+		{
 			e.printStackTrace();
-		} catch (RequestException e) {
+		} 
+		catch (RequestException e) 
+		{
 			e.printStackTrace();
 		}
 	}
 
 	public boolean request(ArrayList<String> servers, String channel,
-			String message) {
+			String message) 
+	{
 		MessageRequest request = null;
-		try {
+		try 
+		{
 			request = new MessageRequest(servers, channel, message); // servername, channelname (short),  message
-		} catch (UnsupportedEncodingException e) {
+		} 
+		catch (UnsupportedEncodingException e) 
+		{
 			e.printStackTrace();
 		}
-		try {
+		try 
+		{
 			FutureResult<MessageResult> futureResult = connect.request(request);
 			/*
 			 * futureResult. futureResult.registerListener(new
@@ -123,50 +149,68 @@ public class LilyEssentials extends JavaPlugin {
 			 * return messageResult.getStatusCode()==StatusCode.SUCCESS; } });
 			 */
 			MessageResult messageResult = futureResult.await(100L);
-			if (messageResult != null) {
+			if (messageResult != null) 
+			{
 				return messageResult.getStatusCode() == StatusCode.SUCCESS;
 			} else {
 				return false;
 			}
-		} catch (RequestException e) {
+		} 
+		catch (RequestException e) 
+		{
 			e.printStackTrace();
 			return false;
-		} catch (InterruptedException e) {
+		} 
+		catch (InterruptedException e) 
+		{
 			e.printStackTrace();
 			return false;
 		}
 	}
 
-	public String wordsToString(int start, String[] words) {
+	public String wordsToString(int start, String[] words) 
+	{
 		StringBuilder builder = new StringBuilder();
-		for(String word : words) {
+		for(String word : words) 
+		{
 			builder.append(word);
 			builder.append(" ");
 		}
 		return builder.toString().trim();
 	}
 
-	public Connect getConnect() {
+	public Connect getConnect() 
+	{
 		return connect;
 	}
 
-	public LilyEssentialsConfig getCfg() {
+	public LilyEssentialsConfig getCfg() 
+	{
 		return config;
 	}
 
-	public String getUsername() {
+	public String getUsername() 
+	{
 		return server;
 	}
 
-	public HashMap<String, String> getLastMessaged() {
+	public HashMap<String, String> getLastMessaged() 
+	{
 		return lastMessaged;
 	}
 
-	public ArrayList<String> getAdminChat() {
+	public ArrayList<String> getAdminChat() 
+	{
 		return adminChat;
 	}
 
-	public ServerSync getServerSync() {
+	public ArrayList<String> getGlobalChat() 
+	{
+		return globalChat;
+	}
+
+	public ServerSync getServerSync() 
+	{
 		return serverSync;
 	}
 

@@ -7,40 +7,43 @@ import org.bukkit.command.CommandSender;
 
 import com.bobacadodl.lilyessentials.LilyEssentials;
 
-public class ReplyCommand implements CommandExecutor {
+public class ReplyCommand implements CommandExecutor 
+{
 
 	private LilyEssentials plugin;
 
-	public ReplyCommand(LilyEssentials plugin) {
+	public ReplyCommand(LilyEssentials plugin) 
+	{
 		this.plugin = plugin;
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) 
+	{
 
-		if (!sender.hasPermission("lilyessentials.general.message")) {
+		if (!sender.hasPermission("lilyessentials.general.message")) 
+		{
 			return false;
 		}
 
 		// Invalid
 		if(args.length <= 0) {
-			sender.sendMessage(ChatColor.DARK_RED + "Invalid args!");
 			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/r [message]");
 			return true;
 		}
 
 		// Invalid
-		if (!plugin.getLastMessaged().containsKey(sender.getName())) {
-			sender.sendMessage(ChatColor.DARK_RED + "Invalid Target!");
+		if (!plugin.getLastMessaged().containsKey(sender.getName())) 
+		{
 			sender.sendMessage(ChatColor.RED + "No one has messaged you recently");
 			return true;
 		}
 
 		String target = plugin.getLastMessaged().get(sender.getName());
 
-		if (plugin.getServerSync().lookupPlayer(target) == null) {
-			sender.sendMessage(ChatColor.DARK_RED + "Error!");
-			sender.sendMessage(ChatColor.RED + "Player is offline");
+		if (plugin.getServerSync().lookupPlayer(target) == null) 
+		{
+			sender.sendMessage(ChatColor.DARK_RED + "That player isn't around. Did you mistype their name?");
 			return true;
 		}
 

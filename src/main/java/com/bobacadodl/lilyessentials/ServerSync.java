@@ -23,29 +23,35 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.google.common.collect.Lists;
 
 
-public class ServerSync implements Runnable, Listener {
+public class ServerSync implements Runnable, Listener 
+{
 	private LilyEssentials plugin;
 	private Map<String, List<String>> serverPlayers = new HashMap<String, List<String>>();
 	private Map<String, Long> lastReply = new HashMap<String, Long>();
 
 	private WeakHashMap<Player, Boolean> isHidden = new WeakHashMap<Player, Boolean>();
 
-	public ServerSync(LilyEssentials plugin) {
+	public ServerSync(LilyEssentials plugin) 
+	{
 		this(plugin, 100L);
 	}
 
-	public ServerSync(LilyEssentials plugin, long delay) {
+	public ServerSync(LilyEssentials plugin, long delay) 
+	{
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, delay, delay);
 		this.plugin = plugin;
 	}
 
 	@Override
-	public void run() {
+	public void run() 
+	{
 
 		Iterator<Entry<String, Long>> replys = lastReply.entrySet().iterator();
-		while(replys.hasNext()) {
+		while(replys.hasNext()) 
+		{
 			Entry<String, Long> reply = replys.next();
-			if((reply.getValue() + 8000) < System.currentTimeMillis()) {
+			if((reply.getValue() + 8000) < System.currentTimeMillis()) 
+			{
 				replys.remove();
 				serverPlayers.remove(reply.getKey());
 			}
@@ -55,13 +61,16 @@ public class ServerSync implements Runnable, Listener {
 		builder.append(plugin.getUsername());
 		builder.append("\0");
 		Iterator<Player> players = Arrays.asList(Bukkit.getOnlinePlayers()).iterator();
-		while(players.hasNext()) {
+		while(players.hasNext()) 
+		{
 			Player current = players.next();
-			if(isPlayerHidden(current)) {
+			if(isPlayerHidden(current)) 
+			{
 				continue;
 			}
 			builder.append(current.getName());
-			if(players.hasNext()) {
+			if(players.hasNext()) 
+			{
 				builder.append("\0");
 			}
 		}
@@ -69,40 +78,51 @@ public class ServerSync implements Runnable, Listener {
 	}
 
 	@EventListener
-	public void onSync(MessageEvent event) {
-		if(event.getChannel().equals("lilyessentials.sync")) {
-			try {
+	public void onSync(MessageEvent event) 
+	{
+		if(event.getChannel().equals("lilyessentials.sync")) 
+		{
+			try 
+			{
 				String[] split = event.getMessageAsString().split("\0");
 				String server = split[0];
 				List<String> players = Lists.newArrayList(split);
 				players.remove(0); //remove the server name from the list
 				serverPlayers.put(server, players);
 				lastReply.put(server, System.currentTimeMillis());
-			} catch (UnsupportedEncodingException e) {
+			} 
+			catch (UnsupportedEncodingException e) 
+			{
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	@EventHandler
-	public void onDisconnect(PlayerQuitEvent event) {
+	public void onDisconnect(PlayerQuitEvent event) 
+	{
 		isHidden.remove(event.getPlayer());
 	}
 
-	public void setPlayerHidden(Player player, boolean state) {
+	public void setPlayerHidden(Player player, boolean state) 
+	{
 		isHidden.put(player, state);
 	}
 
-	public boolean isPlayerHidden(Player player) {
-		if(!isHidden.containsKey(player)) {
+	public boolean isPlayerHidden(Player player) 
+	{
+		if(!isHidden.containsKey(player)) 
+		{
 			return false;
 		}
 
 		return isHidden.get(player);
 	}
 
-	public boolean toggleHidden(Player player) {
-		if(isPlayerHidden(player)) {
+	public boolean toggleHidden(Player player) 
+	{
+		if(isPlayerHidden(player)) 
+		{
 			setPlayerHidden(player, false);
 			return false;
 		}
@@ -110,28 +130,35 @@ public class ServerSync implements Runnable, Listener {
 		return true;
 	}
 
-	public List<String> getPlayersOnServer(String server) {
+	public List<String> getPlayersOnServer(String server) 
+	{
 		return serverPlayers.get(server);
 	}
 
-	public String lookupPlayer(String player) {
-		for(Entry<String, List<String>> server : serverPlayers.entrySet()) {
-			if(server.getValue().contains(player)) {
+	public String lookupPlayer(String player) 
+	{
+		for(Entry<String, List<String>> server : serverPlayers.entrySet()) 
+		{
+			if(server.getValue().contains(player)) 
+			{
 				return server.getKey();
 			}
 		}
 		return null;
 	}
 
-	public List<String> getAllPlayers() {
+	public List<String> getAllPlayers() 
+	{
 		List<String> players = new ArrayList<String>();
-		for(List<String> server : serverPlayers.values()) {
+		for(List<String> server : serverPlayers.values()) 
+		{
 			players.addAll(server);
 		}
 		return players;
 	}
 
-	public Set<String> getServers() {
+	public Set<String> getServers() 
+	{
 		return serverPlayers.keySet();
 	}
 
