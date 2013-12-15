@@ -62,7 +62,7 @@ public class LilyEssentials extends JavaPlugin
 		getCommand("glist").setExecutor(new GlistCommand(this));
 		getCommand("global").setExecutor(new GlobalchatCommand(this));
 		getCommand("local").setExecutor(new GlobalchatCommand(this));
-		getCommand("ignore").setExecutor(new IgnoreCommand(this));
+		//getCommand("ignore").setExecutor(new IgnoreCommand(this));
 		getCommand("message").setExecutor(new MessageCommand(this));
 		getCommand("reply").setExecutor(new ReplyCommand(this));
 		//getCommand("restartserver").setExecutor(new RestartCommand(this));
@@ -70,7 +70,7 @@ public class LilyEssentials extends JavaPlugin
 		getCommand("send").setExecutor(new SendCommand(this));
 		getCommand("shout").setExecutor(new ShoutCommand(this));
 		getCommand("hide").setExecutor(new HideCommand(this));
-		getCommand("unignore").setExecutor(new UnignoreCommand(this));
+		//getCommand("unignore").setExecutor(new UnignoreCommand(this));
 		
 		// add a personal prefix for error responses -feardevilz
 		if (this.getCfg().prefix != null && this.getCfg().prefix != "") { 

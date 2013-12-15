@@ -41,7 +41,12 @@ public class PlayerListener implements Listener
 				player.sendMessage(plugin.prefix + ChatColor.DARK_RED + "Your message cannot contain: '|'");
 				return;
 			}
-			plugin.request("lilyessentials.global", player.getName() + "\0" + e.getMessage());
+			// we're going to use display name here -feardevilz
+			if (player.getDisplayName() != null) {
+				plugin.request("lilyessentials.global", player.getDisplayName() + "\0" + e.getMessage());
+			} else {
+				plugin.request("lilyessentials.global", player.getName() + "\0" + e.getMessage());
+			}
 			e.setCancelled(true);
 		}
 	}
