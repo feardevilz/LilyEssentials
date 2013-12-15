@@ -22,7 +22,7 @@ public class GlistCommand implements CommandExecutor
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) 
 	{
-
+		
 		if (!sender.hasPermission("lilyessentials.general.glist")) 
 		{
 			return false;
@@ -39,13 +39,26 @@ public class GlistCommand implements CommandExecutor
 
 		for (String server : plugin.getServerSync().getServers()) 
 		{
-
 			List<String> players = plugin.getServerSync().getPlayersOnServer(server);
 			String online = Integer.toString(players.size());
+			String playersString = "";
+			
+			for(int i=0;i<players.size();i++)
+			{
+				if(i==0)
+				{
+					playersString = (String)players.get(0);
+				} else {
+					playersString = playersString+", "+ (String)players.get(i);
 
+				}
+			}
+			
 			String msg = ChatColor.translateAlternateColorCodes('&',
-					plugin.getCfg().format_glist_line.replace("{server}", server)
-					.replace("{online}", online));
+					plugin.getCfg().format_glist_line
+					.replace("{server}", server)
+					.replace("{online}", online)
+					.replace("{players}", playersString));
 			sender.sendMessage(msg);
 		}
 

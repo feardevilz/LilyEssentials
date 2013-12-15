@@ -28,14 +28,14 @@ public class ReplyCommand implements CommandExecutor
 
 		// Invalid
 		if(args.length <= 0) {
-			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/r [message]");
+			sender.sendMessage(plugin.prefix + ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/r [message]");
 			return true;
 		}
 
 		// Invalid
 		if (!plugin.getLastMessaged().containsKey(sender.getName())) 
 		{
-			sender.sendMessage(ChatColor.RED + "No one has messaged you recently");
+			sender.sendMessage(plugin.prefix + ChatColor.RED + "No one has messaged you recently");
 			return true;
 		}
 
@@ -43,7 +43,7 @@ public class ReplyCommand implements CommandExecutor
 
 		if (plugin.getServerSync().lookupPlayer(target) == null) 
 		{
-			sender.sendMessage(ChatColor.DARK_RED + "That player isn't around. Did you mistype their name?");
+			sender.sendMessage(plugin.prefix + ChatColor.DARK_RED + "That player isn't around. Did you mistype their name?");
 			return true;
 		}
 

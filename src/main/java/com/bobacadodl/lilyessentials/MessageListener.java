@@ -23,6 +23,7 @@ public class MessageListener
 	@EventListener
 	public void onMessage(MessageEvent event) 
 	{
+		
 		if (event.getChannel().equalsIgnoreCase("lilyessentials.dispatch")) 
 		{
 			try 
@@ -61,7 +62,7 @@ public class MessageListener
 				String from = tofrommessage[0];
 				String message = tofrommessage[1];
 				String fromServer = tofrommessage[2];
-				
+
 				String msg = ChatColor.translateAlternateColorCodes('&',
 						plugin.getCfg().format_shout.replace("{player}", from)
 						.replace("{message}", message)
@@ -86,7 +87,7 @@ public class MessageListener
 				if (p != null) 
 				{
 					// return the player
-					plugin.request("lilyessentials.blankmessage", from + "\0&6&n"
+					plugin.request("lilyessentials.blankmessage", plugin.prefix + from + "\0&6&n"
 							+ p.getName() + ChatColor.YELLOW
 							+ " is on server: &3" + plugin.getUsername());
 				} else {
@@ -123,7 +124,8 @@ public class MessageListener
 
 		if (event.getChannel().equalsIgnoreCase("lilyessentials.sendall")) 
 		{
-			try {
+			try 
+			{
 				String server = event.getMessageAsString();
 
 				for (Player p : plugin.getServer().getOnlinePlayers()) 
@@ -137,6 +139,23 @@ public class MessageListener
 			}
 		}
 
+		if (event.getChannel().equalsIgnoreCase("lilyessentials.restart")) 
+		{
+			try 
+			{
+				String server = event.getMessageAsString();
+
+				for (Player p : plugin.getServer().getOnlinePlayers()) 
+				{
+					plugin.redirectRequest(server, p);
+				}
+			} 
+			catch (UnsupportedEncodingException ex) 
+			{
+				ex.printStackTrace();
+			}
+		}
+		
 		if (event.getChannel().equalsIgnoreCase("lilyessentials.blankmessage")) 
 		{
 			try 
@@ -167,6 +186,7 @@ public class MessageListener
 				String from = tofrommessage[1];
 				String message = tofrommessage[2];
 				String fromServer = tofrommessage[3];
+								
 				Player p = plugin.getServer().getPlayer(from);
 				if (p != null) 
 				{
@@ -197,20 +217,20 @@ public class MessageListener
 				String from = tofrommessage[1];
 				String message = tofrommessage[2];
 				String fromServer = tofrommessage[3];
+				
 				Player p = plugin.getServer().getPlayer(to);
 				if (p != null) 
 				{
 					String chat = ChatColor.translateAlternateColorCodes(
 							'&',
-							plugin.getCfg().format_msg_from.replace("{player}", from)
+							plugin.getCfg().format_msg_from
+							.replace("{player}", from)
 							.replace("{message}", message)
 							.replace("{server}", fromServer));
 					p.sendMessage(chat);
 					plugin.getLastMessaged().put(p.getName(), from);
 					plugin.request("lilyessentials.messagesuccess", p.getName()
 							+ "\0" + from + "\0" + message + "\0" + plugin.getUsername());
-					// main.request("blankmessage",
-					// "from,&7[me -> "+to+"]"+ChatColor.WHITE+message);
 				}
 			} 
 			catch (UnsupportedEncodingException ex) {
@@ -273,6 +293,7 @@ public class MessageListener
 			{
 				String toserver = event.getSender();
 				String user = event.getMessageAsString();
+
 				ArrayList<String> servers = new ArrayList<String>();
 				servers.add(toserver);
 				plugin.request(
@@ -299,12 +320,15 @@ public class MessageListener
 				String user = useronlineserver[0];
 				String online = useronlineserver[1];
 				String server = useronlineserver[2];
+				
 				Player p = Bukkit.getPlayer(user);
 				if (p != null) 
 				{
-					String msg = ChatColor.translateAlternateColorCodes('&',
-							plugin.getCfg().format_glist_line.replace("{server}",
-									server).replace("{online}", online));
+					String msg = ChatColor.translateAlternateColorCodes(
+							'&',
+							plugin.getCfg().format_glist_line
+							.replace("{server}",server)
+							.replace("{online}", online));
 					p.sendMessage(msg);
 				}
 			} 

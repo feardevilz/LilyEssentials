@@ -36,6 +36,9 @@ public class LilyEssentials extends JavaPlugin
 	private ArrayList<String> adminChat = new ArrayList<String>();
 	private ArrayList<String> globalChat = new ArrayList<String>();
 	private ServerSync serverSync;
+	public String whoami;
+	public boolean result = false;
+	public String prefix = "";
 
 	public void onEnable() 
 	{
@@ -59,16 +62,27 @@ public class LilyEssentials extends JavaPlugin
 		getCommand("glist").setExecutor(new GlistCommand(this));
 		getCommand("global").setExecutor(new GlobalchatCommand(this));
 		getCommand("local").setExecutor(new GlobalchatCommand(this));
+		getCommand("ignore").setExecutor(new IgnoreCommand(this));
 		getCommand("message").setExecutor(new MessageCommand(this));
 		getCommand("reply").setExecutor(new ReplyCommand(this));
+		//getCommand("restartserver").setExecutor(new RestartCommand(this));
 		getCommand("sendall").setExecutor(new SendAllCommand(this));
 		getCommand("send").setExecutor(new SendCommand(this));
-		getCommand("hide").setExecutor(new HideCommand(this));
 		getCommand("shout").setExecutor(new ShoutCommand(this));
+		getCommand("hide").setExecutor(new HideCommand(this));
+		getCommand("unignore").setExecutor(new UnignoreCommand(this));
+		
+		// add a personal prefix for error responses -feardevilz
+		if (this.getCfg().prefix != null && this.getCfg().prefix != "") { 
+			prefix = ChatColor.translateAlternateColorCodes('&', this.getCfg().prefix + " ");
+		}
+
 	}
 
 	public void onDisable() 
 	{
+		// execute lilyshutdown to redirect clients from shawshark
+		redirectevent();
 		config.save();
 		log.info(ChatColor.GREEN + "LilyEssentials has been disabled and saved!");
 	}
@@ -91,17 +105,46 @@ public class LilyEssentials extends JavaPlugin
 							{
 								return;
 							}
-							player.sendMessage(ChatColor.RED + "Connection Error!!");
+							player.sendMessage(prefix + ChatColor.RED + "Sorry, unable to redirect connection.");
 						}
 					});
 
 		} 
 		catch (Exception exception) 
 		{
-			player.sendMessage(ChatColor.RED + "Connection Error!!");
+			player.sendMessage(prefix + ChatColor.RED + "Sorry, unable to redirect connection.");
 		}
 	}
 
+	// taken from shawshark, heavily revised -feardevilz
+    public void redirectevent() 
+    {
+    	String server = this.getCfg().redirectserver;
+    	
+    	// first check if we are redirecting to the current server, then execute -feardevilz
+    	if (this.connected(server) == false)
+    	{
+    		for (Player p : getServer().getOnlinePlayers())
+    		{
+    			redirectRequest(server, p); 
+    		}
+    	}
+    }
+    
+	// there's a flaw in lilypad, check if we're connected first -feardevilz
+	public boolean connected(String server) 
+	{
+		result = false;
+		
+		Connect connect = (Connect) this.getServer().getServicesManager().getRegistration(Connect.class).getProvider();
+		whoami = connect.getSettings().getUsername();
+		if(whoami.equalsIgnoreCase(server)) 
+		{
+			result = true;
+		}
+		return result;
+	}
+ 
 	public FutureResult<GetPlayersResult> playerRequest()
 			throws RequestException 
 	{

@@ -31,7 +31,7 @@ public class DispatchServerCommand implements CommandExecutor
 		// Invalid
 		if(args.length <= 0) 
 		{
-			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/dispatchserver [servers] [command]");
+			sender.sendMessage(plugin.prefix + ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/dispatchserver [servers] [command]");
 			return true;
 		}
 

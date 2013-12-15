@@ -12,6 +12,8 @@ commands:
     description: Send a player to another server
   sendall:
     description: Send all players to another server
+  restart:
+    description: Send all players to another server and enables whitelisting
   find:
     aliases: [find, whereis, plist, who, list]
     description: Find what server another player is on
@@ -37,6 +39,8 @@ commands:
   global:
     aliases: [local]
     description: Toggle global/local chat
+  hide:
+    description: Toggle hide mode on player list
 permissions:
   lilyesssentials.*:
     description: All LilyEssentials perms
@@ -52,6 +56,8 @@ permissions:
       lilyessentials.admin.alertserver: true
       lilyessentials.admin.dispatch: true
       lilyessentials.admin.dispatchserver: true
+      lilyessentials.admin.restart: true
+      lilyessentials.admin.hide: true
   lilyessentials.general.*:
     description: All general LilyEssentials perms
     children:
@@ -72,7 +78,7 @@ permissions:
       lilyessentials.admin.sendall: true
       lilyessentials.admin.hide: true
   lilyessentials.admin.chat:
-    description: Access to adminChat
+    description: Access to admin chat
     default: op
   lilyessentials.admin.alert:
     description: Access to alert
@@ -85,6 +91,9 @@ permissions:
     default: op
   lilyessentials.admin.dispatchserver:
     description: Access to dispatchserver
+    default: op
+  lilyessentials.admin.restart:
+    description: Access to restart
     default: op
   lilyessentials.general.message:
     description: Access to messaging
@@ -105,5 +114,5 @@ permissions:
     description: send a player to another server
     default: op
   lilyessentials.admin.hide:
-    description: hides the player from messages
+    description: hides the player from messages and player list
     default: op

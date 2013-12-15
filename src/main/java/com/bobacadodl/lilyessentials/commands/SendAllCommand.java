@@ -28,7 +28,7 @@ public class SendAllCommand implements CommandExecutor
 
 		// Invalid
 		if (args.length != 1) {
-			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/sendall [server]");
+			sender.sendMessage(plugin.prefix + ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/sendall [server]");
 			return true;
 		}
 

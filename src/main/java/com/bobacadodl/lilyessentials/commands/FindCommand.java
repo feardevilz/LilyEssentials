@@ -29,7 +29,7 @@ public class FindCommand implements CommandExecutor
 		// Invalid
 		if (args.length != 1) 
 		{
-			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/find [player]");
+			sender.sendMessage(plugin.prefix + ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/find [player]");
 			return true;
 		}
 
@@ -37,7 +37,7 @@ public class FindCommand implements CommandExecutor
 
 		if (plugin.getServerSync().lookupPlayer(tofind) == null) 
 		{
-			sender.sendMessage(ChatColor.DARK_RED + "That player isn't around. Did you mistype their name?");
+			sender.sendMessage(plugin.prefix + ChatColor.DARK_RED + "That player isn't around. Did you mistype their name?");
 			return true;
 		}
 

@@ -28,7 +28,7 @@ public class AlertCommand implements CommandExecutor
 
 		if(args.length <= 0)
 		{
-			sender.sendMessage(ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/alert [message]");
+			sender.sendMessage(plugin.prefix + ChatColor.RED + "Proper Usage: " + ChatColor.YELLOW + "/alert [message]");
 			return true;
 		}
 

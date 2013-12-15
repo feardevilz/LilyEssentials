@@ -1,10 +1,13 @@
 package com.bobacadodl.lilyessentials;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener 
@@ -25,7 +28,7 @@ public class PlayerListener implements Listener
 		{
 			if (e.getMessage().contains("|")) 
 			{
-				player.sendMessage(ChatColor.DARK_RED + "Your message cannot contain: '|'");
+				player.sendMessage(plugin.prefix + ChatColor.DARK_RED + "Your message cannot contain: '|'");
 				return;
 			}
 			plugin.request("lilyessentials.admin", player.getName() + "\0" + e.getMessage());
@@ -35,7 +38,7 @@ public class PlayerListener implements Listener
 		{
 			if (e.getMessage().contains("|")) 
 			{
-				player.sendMessage(ChatColor.DARK_RED + "Your message cannot contain: '|'");
+				player.sendMessage(plugin.prefix + ChatColor.DARK_RED + "Your message cannot contain: '|'");
 				return;
 			}
 			plugin.request("lilyessentials.global", player.getName() + "\0" + e.getMessage());
@@ -43,6 +46,32 @@ public class PlayerListener implements Listener
 		}
 	}
 
+	// added in matthijs110s awesome redirect code
+    /* Testing this now. its not ready for production yet
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onLogin(PlayerLoginEvent e) 
+    {
+    
+           Player player = e.getPlayer();
+
+        if (e.getResult() == PlayerLoginEvent.Result.KICK_FULL) 
+        {
+                e.allow();
+        }
+        if (Bukkit.getServer().getMaxPlayers() <= Bukkit.getServer()
+                        .getOnlinePlayers().length) 
+        {
+                if (e.getPlayer().hasPermission("lilyessentials.admin.restart")) 
+                {
+                        e.allow();
+
+                } else {
+                	plugin.redirectRequest(plugin.getCfg().redirectserver, player);
+                }
+        }
+    }
+    */
+		
 	@EventHandler
 	public void onQuit(PlayerQuitEvent e) 
 	{
